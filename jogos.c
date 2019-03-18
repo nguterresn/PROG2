@@ -11,8 +11,17 @@
 
 
 vetor* jogos_load(const char *nomef){
-//fsdf
-    return NULL;
+
+    vetor * vetor;
+    FILE *file;
+    file = fopen(nomef,"r");
+
+    if (file != NULL) 
+    {
+        file = (FILE *)malloc(sizeof(file));
+        return file; 
+    } 
+    else return NULL;
 }
 
 
