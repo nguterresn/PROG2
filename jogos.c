@@ -12,14 +12,27 @@
 
 vetor* jogos_load(const char *nomef){
 
-    vetor * vetor;
     FILE *file;
     file = fopen(nomef,"r");
+    char buffer[255];
+    int games_counter = 0;
+
+    vetor *vtr = (vetor *) malloc(sizeof(vetor));
+    vtr->elementos = (jogo*)malloc(2000);
 
     if (file != NULL) 
-    {
-        file = (FILE *)malloc(sizeof(file));
-        return file; 
+    {   
+        while (fgets(buffer, 255, (FILE*) file))
+        {
+           games_counter++;
+	    }
+
+        vtr->tamanho = games_counter;
+
+        printf("\nCapacidade %d\n", vtr->capacidade);
+        
+        fclose (file);
+        return vtr;
     } 
     else return NULL;
 }
