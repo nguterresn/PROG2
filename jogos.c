@@ -104,6 +104,7 @@ int jogos_save(vetor *vec, const char *nomef){
         //printf("POs %d, Ver: %d\n",i, jg->vermelhos_casa);
     }
 
+    free(jg);
     free(buffer);
     return vec->tamanho;
 }
@@ -115,13 +116,36 @@ vetor_equipas *stats_equipa(vetor *vec){
     if (vtr_equipas == NULL)
         return NULL;
     
-    /*for (int i = 0; i < vec->tamanho; i++) 
+    jogo * jg = (jogo*)malloc(sizeof(jogo));
+    if (jg == NULL)
+        return NULL;
+
+    if (vec == NULL)
+        return NULL;
+
+    equipa * equip;
+    char* buffer = (char*)malloc(sizeof(buffer));
+    int *diff_golos =(int*)malloc(sizeof(diff_golos));
+    int *marcados = (int*)malloc(sizeof(marcados));
+    int *sofridos = (int*)malloc(sizeof(sofridos));
+    char nome_equipa[30];
+    float vermelhos[3];
+
+    for(int i = 0; i < vec->tamanho; i++)
     {
-        jogo * aux = vetor_elemento(vec, i);
-    }*/
+        if(strcmp(jg->nome_casa, "West_Ham")) {
+            if (jg->golos_casa != 0)
+                marcados++;
+            if(jg->golos_fora != 0)
+                sofridos++;
+        }
+    }
+
+    printf("Marcados: %d\n", marcados);
+    printf("Sofridos: %d\n", sofridos);
     
     // ultimo passo: vetor_equipas_insere()...
-    return NULL;
+    return vtr_equipas;
 }
 
 
