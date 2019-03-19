@@ -47,9 +47,14 @@ int jogos_save(vetor *vec, const char *nomef){
     FILE *file;
     file = fopen(nomef,"w");
 
+    char *esp1;
+    char *esp2;
+    char *esp3;
+    char *esp4;
+    char *esp5;
+    char *esp6;
+
     jogo * jg = (jogo*)malloc(sizeof(jogo));
-    memset(jg->epoca, 0, sizeof(jg->epoca));
-    memset(jg->nome_casa, 0, sizeof(jg->nome_casa));
     char * buffer = (char*) malloc (255 * sizeof(*buffer));
 
     /* nao usado, necessario alocar */
@@ -66,49 +71,40 @@ int jogos_save(vetor *vec, const char *nomef){
         fprintf((FILE*) file, "%s", jog);
     }
 
-    for(int i = 0; i < 10; i++)
-    {
-        strcpy(buffer, (const char*)vetor_elemento(vec, i));
-        /* Mais tarde, substituir o buffer por jg com memória, não esta a dar neste momento 
-        for (int j = 0; j < strlen (buffer); j++) {
-            printf("%c", buffer[j]);
-        }*/
+    fclose(file);
 
-        len = 0;
+    for(int i = 0; i < vec->tamanho; i++)
+    {
+        memset(jg->epoca, 0, sizeof(jg->epoca));
+        memset(jg->nome_casa, 0, sizeof(jg->nome_casa));
+        memset(jg->nome_fora, 0, sizeof(jg->nome_fora));
+        jg->golos_casa = 0;
+        jg->golos_fora = 0;
+        jg->vermelhos_casa = 0;
+        jg->vermelhos_fora = 0;
+
+        strcpy(buffer, (const char*)vetor_elemento(vec, i));
+
         memcpy(jg->epoca, buffer, 5);
 
-        printf ("\n\n\nEpoca: ");
-        for (int j = 0; j < 10; j++) {
-            printf("%c", jg->epoca[j]);
-        }
+        esp1 = memchr(buffer, ' ', strlen(buffer));
+        esp2 = memchr(esp1+1, ' ', strlen(esp1));
+        esp3 = memchr(esp2+1, ' ', strlen(esp2));
+        esp4 = memchr(esp3+1, ' ', strlen(esp3));
+        esp5 = memchr(esp4+1, ' ', strlen(esp4));
+        esp6 = memchr(esp5+1, ' ', strlen(esp5));
 
-        while (buffer[len] != ' ') len++;
-
-        printf ("\nLen: %d", len);
-
-        while (buffer[len+1] != ' ') len++;
-        
-        printf ("\nLen2: %d", len);
-
-        while (buffer[len] != ' ') len++;
-        
-        printf ("\nLen3: %d", len);
-
-        while (buffer[len+1] != ' ') len++;
-        
-        printf ("\nLen4: %d", len);
-
-        while (buffer[len] != ' ') len++;
-        
-        printf ("\nLen5: %d", len);
-
-        while (buffer[len+1] != ' ') len++;
-        
-        printf ("\nLen6: %d", len);
-
+        memcpy(jg->nome_casa, esp1+1, (esp2-esp1));
+        memcpy(jg->nome_fora, esp2+1, (esp3-esp2));
+        sscanf(esp3+1, "%d", &jg->golos_casa);
+        sscanf(esp4+1, "%d", &jg->golos_fora);
+        sscanf(esp5+1, "%d", &jg->vermelhos_casa);
+        sscanf(esp6+1, "%d", &jg->vermelhos_fora);
+      
+        //printf("POs %d, Ver: %d\n",i, jg->vermelhos_casa);
     }
-    
-    fclose(file);
+
+    free(buffer);
     return vec->tamanho;
 }
 
