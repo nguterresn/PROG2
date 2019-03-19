@@ -15,23 +15,24 @@ vetor* jogos_load(const char *nomef){
     FILE *file;
     file = fopen(nomef,"r");
     char buffer[255];
-    int games_counter = 0;
 
-    vetor *vtr = (vetor *) malloc(sizeof(vetor));
-   
-   /* este valor tem de ser mudado para algo mais eficiente, para já funciona */
+    vetor * vtr = vetor_novo();
+    jogo * jogo1 = (jogo*)malloc(sizeof(jogo));
 
     if (file != NULL) 
     {   
         while (fgets(buffer, 255, (FILE*) file))
         {
-            /* strlen x 1 byte (255bits) */
-            vtr->elementos = (jogo * )malloc (strlen(buffer)*sizeof(char)); 
-            games_counter++;
+            strcpy((char*)jogo1, buffer);
+            vetor_insere(vtr, *jogo1, -1);
 	    }
 
-        vtr->tamanho = games_counter;
-        memcpy (vtr->elementos, buffer, vtr->tamanho);
+        /*for (int i= 0; i < vtr->tamanho; i++) {
+            jogo * aux = vetor_elemento(vtr, i);
+			printf ("Pos %d -> %s", i, aux);
+		}*/
+                
+        fclose(file);
         return vtr;
     } 
     else return NULL;
@@ -42,12 +43,16 @@ int jogos_save(vetor *vec, const char *nomef){
 
     FILE *file;
     file = fopen(nomef,"r");
-    char buffer[255];
+    char *buffer;
     int games_counter = 0;
 
-    if (vec != NULL) {
-
-    } else {
+    /* nao usado, necessario alocar */
+    if (vec == NULL) 
+    {
+        vetor * vec = vetor_novo();
+    } 
+    else 
+    {
 
     }
     return -1;
