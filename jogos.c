@@ -42,20 +42,27 @@ vetor* jogos_load(const char *nomef){
 int jogos_save(vetor *vec, const char *nomef){
 
     FILE *file;
-    file = fopen(nomef,"r");
-    char *buffer;
-    int games_counter = 0;
+    file = fopen(nomef,"w");
+    char buffer[255];
 
     /* nao usado, necessario alocar */
     if (vec == NULL) 
     {
         vetor * vec = vetor_novo();
+        if (vec == NULL) 
+            return -1;
     } 
-    else 
-    {
 
+    jogo * jogo1 = (jogo*)malloc(sizeof(jogo));
+
+    for (int i = 0; i < vec->tamanho; i++) 
+    {
+        jogo * aux = vetor_elemento(vec, i);
+        fprintf((FILE*) file, "%s", aux);
     }
-    return -1;
+
+    fclose(file);
+    return vec->tamanho;
 }
 
 
