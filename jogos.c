@@ -18,20 +18,20 @@ vetor* jogos_load(const char *nomef){
     int games_counter = 0;
 
     vetor *vtr = (vetor *) malloc(sizeof(vetor));
-    vtr->elementos = (jogo*)malloc(2000);
+   
+   /* este valor tem de ser mudado para algo mais eficiente, para já funciona */
 
     if (file != NULL) 
     {   
         while (fgets(buffer, 255, (FILE*) file))
         {
-           games_counter++;
+            /* strlen x 1 byte (255bits) */
+            vtr->elementos = (jogo * )malloc (strlen(buffer)*sizeof(char)); 
+            games_counter++;
 	    }
 
         vtr->tamanho = games_counter;
-
-        printf("\nCapacidade %d\n", vtr->capacidade);
-        
-        fclose (file);
+        memcpy (vtr->elementos, buffer, vtr->tamanho);
         return vtr;
     } 
     else return NULL;
@@ -39,7 +39,17 @@ vetor* jogos_load(const char *nomef){
 
 
 int jogos_save(vetor *vec, const char *nomef){
-//fsdf
+
+    FILE *file;
+    file = fopen(nomef,"r");
+    char buffer[255];
+    int games_counter = 0;
+
+    if (vec != NULL) {
+
+    } else {
+
+    }
     return -1;
 }
 
