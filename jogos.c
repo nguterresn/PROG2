@@ -17,7 +17,12 @@ vetor* jogos_load(const char *nomef){
     char buffer[255];
 
     vetor * vtr = vetor_novo();
+    if(vtr == NULL) 
+        return NULL;
+
     jogo * jogo1 = (jogo*)malloc(sizeof(jogo));
+    if(jogo1 == NULL) 
+        return NULL;
 
     if (file != NULL) 
     {   
@@ -26,11 +31,6 @@ vetor* jogos_load(const char *nomef){
             strcpy((char*)jogo1, buffer);
             vetor_insere(vtr, *jogo1, -1);
 	    }
-
-        /*for (int i= 0; i < vtr->tamanho; i++) {
-            jogo * aux = vetor_elemento(vtr, i);
-			printf ("Pos %d -> %s", i, aux);
-		}*/
 
         free(jogo1);     
         fclose(file);
@@ -47,7 +47,11 @@ int jogos_save(vetor *vec, const char *nomef){
     FILE *file;
     file = fopen(nomef,"w");
 
-    char * buffer = (char*) malloc (255 * sizeof(*buffer));
+    char * buffer = (char*) malloc (255 * sizeof(buffer));
+    if (buffer == NULL) {
+        perror("Erro:");
+        return -1;
+    }
 
     /* nao usado, necessario alocar */
     if (vec == NULL) 
@@ -84,8 +88,18 @@ vetor_equipas *stats_equipa(vetor *vec){
 
     //jogo * jg;
     equipa * equip;
-    char* buffer = (char*)malloc(sizeof(buffer));
-    char* aloc = (char*)malloc(sizeof(aloc));
+    char* buffer = (char*)malloc(sizeof(buffer)*100);
+    if (buffer == NULL) {
+        perror("Erro:");
+        return NULL;
+    }
+
+    char* aloc = (char*)malloc(sizeof(aloc)*100);
+    if (aloc == NULL) {
+        perror("Erro:");
+        return NULL;
+    }
+
     char *flux[] = {};
     int diff_golos;
     int marcados_casa = 0;
@@ -107,6 +121,7 @@ vetor_equipas *stats_equipa(vetor *vec){
     char *esp4;
     char *esp5;
     char *esp6;
+
 
     for(int i = 0; i < vec->tamanho; i++)
     {
@@ -183,7 +198,7 @@ vetor_equipas *stats_equipa(vetor *vec){
             vermelhos[0] = (double)(vermelho_casa_1 + vermelho_fora_1)/38;
             vermelhos[1] = (double)(vermelho_casa_2 + vermelho_fora_2)/38;
             vermelhos[2] = (double)(vermelho_casa_3 + vermelho_fora_3)/38;
-             
+            
         }
     }
 
@@ -193,9 +208,12 @@ vetor_equipas *stats_equipa(vetor *vec){
     printf("Vermlhso 15/16: %f\n", vermelhos[0]);
     printf("Vermlhso 16/17: %f\n", vermelhos[1]);
     printf("Vermlhso 17/18: %f\n", vermelhos[2]);
+
+    free(buffer);
+    free(aloc);
     
     // ultimo passo: vetor_equipas_insere()...
-    //return vtr_equipas;
+    return vtr_equipas;
 }
 
 
