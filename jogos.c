@@ -47,14 +47,6 @@ int jogos_save(vetor *vec, const char *nomef){
     FILE *file;
     file = fopen(nomef,"w");
 
-    char *esp1;
-    char *esp2;
-    char *esp3;
-    char *esp4;
-    char *esp5;
-    char *esp6;
-
-    jogo * jg = (jogo*)malloc(sizeof(jogo));
     char * buffer = (char*) malloc (255 * sizeof(*buffer));
 
     /* nao usado, necessario alocar */
@@ -72,6 +64,49 @@ int jogos_save(vetor *vec, const char *nomef){
     }
 
     fclose(file);
+    free(buffer);
+    return vec->tamanho;
+}
+
+
+vetor_equipas *stats_equipa(vetor *vec){
+
+    vetor_equipas * vtr_equipas = vetor_equipas_novo();
+    if (vtr_equipas == NULL)
+        return NULL;
+    
+    jogo * jg = (jogo*)malloc(sizeof(jogo));
+    if (jg == NULL)
+        return NULL;
+
+    if (vec == NULL)
+        return NULL;
+
+    //jogo * jg;
+    equipa * equip;
+    char* buffer = (char*)malloc(sizeof(buffer));
+    char* aloc = (char*)malloc(sizeof(aloc));
+    char *flux[] = {};
+    int diff_golos;
+    int marcados_casa = 0;
+    int sofridos_casa = 0;
+    int marcados_fora = 0;
+    int sofridos_fora = 0;
+    uint8_t vermelho_casa_1 = 0;
+    uint8_t vermelho_casa_2 = 0;
+    uint8_t vermelho_casa_3 = 0;
+    uint8_t vermelho_fora_1 = 0;
+    uint8_t vermelho_fora_2 = 0;
+    uint8_t vermelho_fora_3 = 0;
+    char nome_equipa[30];
+    float vermelhos[3];
+
+    char *esp1;
+    char *esp2;
+    char *esp3;
+    char *esp4;
+    char *esp5;
+    char *esp6;
 
     for(int i = 0; i < vec->tamanho; i++)
     {
@@ -100,52 +135,67 @@ int jogos_save(vetor *vec, const char *nomef){
         sscanf(esp4+1, "%d", &jg->golos_fora);
         sscanf(esp5+1, "%d", &jg->vermelhos_casa);
         sscanf(esp6+1, "%d", &jg->vermelhos_fora);
-      
-        //printf("POs %d, Ver: %d\n",i, jg->vermelhos_casa);
-    }
 
-    free(jg);
-    free(buffer);
-    return vec->tamanho;
-}
+        if ((strstr(jg->nome_casa,"Tottenham") != NULL) || (strstr(jg->nome_fora,"Tottenham") != NULL)) 
+        {
+            if (strstr(jg->nome_casa,"Tottenham") != NULL) {
+                if (jg->golos_casa != 0)
+                    marcados_casa += jg->golos_casa;
+                if (jg->golos_fora != 0)
+                    sofridos_casa += jg->golos_fora;
 
+                if (strstr(jg->epoca,"15/16") != NULL) {
+                    //19jogos
+                    if (jg->vermelhos_casa != 0)
+                        vermelho_casa_1 += jg->vermelhos_casa;
+                }
+                if (strstr(jg->epoca,"16/17") != NULL) {
+                    if (jg->vermelhos_casa != 0)
+                        vermelho_casa_2 += jg->vermelhos_casa;
+                }
+                if (strstr(jg->epoca,"17/18") != NULL) {
+                    if (jg->vermelhos_casa != 0)
+                        vermelho_casa_3 += jg->vermelhos_casa;
+                }
+            }
 
-vetor_equipas *stats_equipa(vetor *vec){
+            if (strstr(jg->nome_fora,"Tottenham") != NULL) {
+                if (jg->golos_fora != 0 )
+                    marcados_fora += jg->golos_fora;
+                if (jg->golos_casa != 0 )
+                    sofridos_fora += jg->golos_casa;
 
-    vetor_equipas * vtr_equipas = vetor_equipas_novo();
-    if (vtr_equipas == NULL)
-        return NULL;
-    
-    jogo * jg = (jogo*)malloc(sizeof(jogo));
-    if (jg == NULL)
-        return NULL;
+                if (strstr(jg->epoca,"15/16") != NULL) {
+                    if (jg->vermelhos_fora != 0)
+                        vermelho_fora_1 += jg->vermelhos_fora;
+                }
+                if (strstr(jg->epoca,"16/17") != NULL) {
+                    if (jg->vermelhos_fora != 0)
+                        vermelho_fora_2 += jg->vermelhos_fora;
+                }
+                if (strstr(jg->epoca,"17/18") != NULL) {
+                    if (jg->vermelhos_fora != 0)
+                        vermelho_fora_3 += jg->vermelhos_fora;
+                }
+            }
 
-    if (vec == NULL)
-        return NULL;
-
-    equipa * equip;
-    char* buffer = (char*)malloc(sizeof(buffer));
-    int *diff_golos =(int*)malloc(sizeof(diff_golos));
-    int *marcados = (int*)malloc(sizeof(marcados));
-    int *sofridos = (int*)malloc(sizeof(sofridos));
-    char nome_equipa[30];
-    float vermelhos[3];
-
-    for(int i = 0; i < vec->tamanho; i++)
-    {
-        if(strcmp(jg->nome_casa, "West_Ham")) {
-            if (jg->golos_casa != 0)
-                marcados++;
-            if(jg->golos_fora != 0)
-                sofridos++;
+            diff_golos = (marcados_casa + marcados_fora) - (sofridos_casa + sofridos_fora);
+            vermelhos[0] = (double)(vermelho_casa_1 + vermelho_fora_1)/38;
+            vermelhos[1] = (double)(vermelho_casa_2 + vermelho_fora_2)/38;
+            vermelhos[2] = (double)(vermelho_casa_3 + vermelho_fora_3)/38;
+             
         }
     }
 
-    printf("Marcados: %d\n", marcados);
-    printf("Sofridos: %d\n", sofridos);
+    printf("Marcados: %d\n", (marcados_casa+marcados_fora));
+    printf("Sofridos: %d\n", (sofridos_casa+sofridos_fora));
+    printf("Diff: %d\n", diff_golos);
+    printf("Vermlhso 15/16: %f\n", vermelhos[0]);
+    printf("Vermlhso 16/17: %f\n", vermelhos[1]);
+    printf("Vermlhso 17/18: %f\n", vermelhos[2]);
     
     // ultimo passo: vetor_equipas_insere()...
-    return vtr_equipas;
+    //return vtr_equipas;
 }
 
 
