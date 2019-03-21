@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <string.h>
 
+void quickSortMain(char items[][20], int count);
+void quickSort(char items[][20], int left, int right);
 
 vetor* jogos_load(const char *nomef){
 
@@ -176,16 +178,81 @@ vetor_equipas *stats_equipa(vetor *vec)
     get_equipas(vec, vtr_equipas,"Brighton");
     get_equipas(vec, vtr_equipas,"Huddersfield");
 
-    
-    // ultimo passo: vetor_equipas_insere()...
     return vtr_equipas;
 
 }
 
+//funcao quicksort para ordenar strings
+void quickSortMain(char items[][20], int count)
+{
+  quickSort(items, 0, count-1);
+}
+
+void quickSort(char items[][20], int left, int right)
+{
+  int i, j;
+  char *x;
+  char temp[20];
+
+  i = left;
+  j = right;
+  x = items[(left+right)/2];
+
+  do {
+    while((strcmp(items[i],x) < 0) && (i < right)) {
+       i++;
+    }
+    while((strcmp(items[j],x) > 0) && (j > left)) {
+        j--;
+    }
+    if(i <= j) {
+      strcpy(temp, items[i]);
+      strcpy(items[i], items[j]);
+      strcpy(items[j], temp);
+      i++;
+      j--;
+   }
+  } while(i <= j);
+
+  if(left < j) {
+     quickSort(items, left, j);
+  }
+  if(i < right) {
+     quickSort(items, i, right);
+  }
+}
 
 int equipas_ordena(vetor_equipas *v, int criterio){
-//fsdf
-    return -1;
+
+    equipa *equipa1;
+    char buffer[30][20];
+
+    if (criterio == 0) 
+    {
+        printf ("Entrou em 0");
+        for (int i = 0; i < v->tamanho; i++) 
+        {
+            equipa1 = vetor_equipas_elemento(v, i);
+            strcpy(buffer[i],equipa1->nome_equipa);
+            printf ("%s", buffer[i]);
+        }
+
+        quickSortMain(buffer,v->tamanho+1);
+
+        for(int i = 0; i < v->tamanho+1; i++) 
+        {
+            printf ("%s", buffer[i]);
+            /*strcpy(equipa1->nome_equipa,buffer[i]);
+            vetor_equipas_atribui(v,i,*equipa1);
+
+            printf("\n%s\n",equipa1->nome_equipa);*/
+        }
+    }
+    if (criterio == 1) 
+    {
+       printf ("lol"); 
+    }
+    return 0;
 }
 
 
@@ -234,7 +301,6 @@ int corrige_jogo(vetor *vec, const char *nomef){
     return 0;
 }
 
-
 int pontos_de_equipa(vetor *vec, char *nome_equipa, char *epoca){
     
     int pontos = 0;
@@ -267,9 +333,7 @@ int pontos_de_equipa(vetor *vec, char *nome_equipa, char *epoca){
             }
         }
     }
-
     return pontos;
-    
 }
 
 
