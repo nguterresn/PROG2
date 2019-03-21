@@ -1,4 +1,3 @@
-  
 /*****************************************************************/
 /*         Trabalho pratico 1 | PROG2 | MIEEC | 2018/19          */
 /*****************************************************************/
@@ -10,10 +9,8 @@
 #include <stdio.h>
 #include <string.h>
 
-
 void quickSortMain(char items[][20], int count);
 void quickSort(char items[][20], int left, int right);
-
 
 vetor* jogos_load(const char *nomef){
 
@@ -37,7 +34,6 @@ vetor* jogos_load(const char *nomef){
     fclose(file);
     return vtr;
 }
-
 
 int jogos_save(vetor *vec, const char *nomef){
 
@@ -141,12 +137,6 @@ void get_equipas (vetor *vec, vetor_equipas *vec_equipas, const char* nome_equip
     equipa.vermelhos[0] = vermelhos [0];
     equipa.vermelhos[1] = vermelhos [1];
     equipa.vermelhos[2] = vermelhos [2];
-
-    printf("\nDiff %s: %d\n", equipa.nome_equipa, equipa.diff_golos);  
-    printf("Vermelhos: %f\n", equipa.vermelhos[0]);
-    printf("Vermelhos: %f\n", equipa.vermelhos[1]);
-    printf("Vermelhos: %f\n", equipa.vermelhos[2]);
-
     vetor_equipas_insere(vec_equipas, equipa, -1);
 }
 
@@ -182,8 +172,6 @@ vetor_equipas *stats_equipa(vetor *vec)
     get_equipas(vec, vtr_equipas,"Brighton");
     get_equipas(vec, vtr_equipas,"Huddersfield");
 
-    
-    // ultimo passo: vetor_equipas_insere()...
     return vtr_equipas;
 
 }
@@ -228,43 +216,109 @@ void quickSort(char items[][20], int left, int right)
   }
 }
 
-
 int equipas_ordena(vetor_equipas *v, int criterio){
-       equipa *equipa1;
-       char buffer[v->tamanho+1][20];
-   
-     for (int i = 0; i < v->tamanho; i++) 
+
+    equipa *equipa1;
+    equipa eq;
+    char buffer[30][20];
+
+    if (criterio == 0) 
     {
-        equipa1 = vetor_equipas_elemento(v, i);
-        strcpy(buffer[i],equipa1->nome_equipa);
-      //printf("\n%s",buffer[i]);
+        printf ("Entrou em 0");
+        for (int i = 0; i < v->tamanho; i++) 
+        {
+            equipa1 = vetor_equipas_elemento(v, i);
+            strcpy(buffer[i],equipa1->nome_equipa);
+        }
+
+        quickSortMain(buffer,v->tamanho+1);
+
+        for(int i = 0; i < v->tamanho+1; i++) 
+        {
+            strcpy(eq.nome_equipa,buffer[i]);
+            printf("\n%s\n",eq.nome_equipa);
+            if(vetor_equipas_atribui(v,i,eq)!=-1){
+                printf("SUCESS!\n");
+            }
+        }
         
     }
-
-    quickSortMain(buffer,v->tamanho+1);
-
-     
-     for(int i=0;i<v->tamanho+1;i++) {
-     //printf("\n%s\n",buffer[i]);
-     strcpy(equipa1->nome_equipa,buffer[i]);
-     vetor_equipas_atribui(v,i,*equipa1);
-     printf("\n%s\n",equipa1->nome_equipa);
-     }
-    
+    if (criterio == 1) 
+    {
+      //sdd
+    }
     return 0;
-    
 }
 
 
 int corrige_jogo(vetor *vec, const char *nomef){
-//fsdf
-    return -1;
-}
 
+    FILE *filer;
+    filer = fopen(nomef,"r");
+    if (!filer) 
+    {
+        perror("Error: ");
+        return -1;
+    }
+
+    jogo jogo1;
+
+    while (fscanf(filer,"%s %s %s %d %d %d %d", jogo1.epoca, jogo1.nome_casa, jogo1.nome_fora, &jogo1.golos_casa, &jogo1.golos_fora, &jogo1.vermelhos_casa, &jogo1.vermelhos_fora) != EOF)
+    {
+        for (int i = 0; i < vec->tamanho; i++) 
+        {
+            jogo * jogo2 = vetor_elemento(vec, i);
+
+            if ((!(strcmp(jogo1.epoca,jogo2->epoca))) 
+            && (!(strcmp(jogo1.nome_casa,jogo2->nome_casa)))  
+            && (!(strcmp(jogo1.nome_fora,jogo2->nome_fora)))) 
+            {
+                vetor_atribui(vec, i, jogo1);
+            }
+
+        }
+    }
+
+    return 0;
+}
 
 int pontos_de_equipa(vetor *vec, char *nome_equipa, char *epoca){
-    //fsdf
-    return -1;
+    
+    int pontos = 0;
+
+    for(int i = 0; i < vec->tamanho; i++)
+    {
+        jogo * jg = vetor_elemento(vec, i);
+        if ((!(strcmp(jg->epoca, epoca)))) 
+        {
+            if ((!(strcmp(jg->nome_casa, nome_equipa))) || (!(strcmp(jg->nome_fora, nome_equipa)))) 
+            {
+                // Joga em casa!
+                if (!(strcmp(nome_equipa, jg->nome_casa))) 
+                {
+                    if ((jg->golos_casa) > (jg->golos_fora)) {
+                        pontos += 3;
+                    }
+                    if ((jg->golos_casa) == (jg->golos_fora))
+                        pontos += 1;
+                }
+                // Joga fora!
+                if (!(strcmp(nome_equipa, jg->nome_fora))) 
+                {
+                    if ((jg->golos_casa) < (jg->golos_fora)) {
+                        pontos += 3;
+                    }
+                    if ((jg->golos_casa) == (jg->golos_fora))
+                        pontos += 1;
+                }
+            }
+        }
+    }
+    return pontos;
 }
+
+
+
+
 
 
