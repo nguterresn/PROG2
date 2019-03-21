@@ -130,19 +130,22 @@ int teste_equipas_ordena()
 	INICIA_TESTE()
 
 	printf("equipas_ordena(): ");
-
-	vetor *v = jogos_load(FICH1);
+	
+	vetor *v = NULL;
+	//vetor *v = jogos_load(FICH1);
 	vetor_equipas * stats = stats_equipa(v);
-
 	inicio = clock();
+	printf("Here\n");
 	equipas_ordena(stats, 0);
 	fim = clock();
 	t_alfa = (double)(fim - inicio) / CLOCKS_PER_SEC;
+
 	if (strcmp(vetor_equipas_elemento(stats, 0)->nome_equipa, "Arsenal") != 0){
 		ERRO("elemento inicial errado depois de ordenar por ordem alfabética.")}
 	else{
 		printf("\n\tElemento inicial quando ordenado por ordem alfabética: %s\n\t", vetor_equipas_elemento(stats, 0)->nome_equipa);
 	}
+	
 	vetor_apaga(v);
 	vetor_equipas_apaga(stats);
 	v = jogos_load(FICH1);

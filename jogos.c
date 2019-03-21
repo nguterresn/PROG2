@@ -12,48 +12,38 @@
 
 vetor* jogos_load(const char *nomef){
 
+
+
     FILE *file;
     file = fopen(nomef,"r");
-    char buffer[255];
 
     vetor * vtr = vetor_novo();
     if(vtr == NULL) 
         return NULL;
 
-    jogo * jogo1 = (jogo*)malloc(sizeof(jogo));
+    jogo* jogo1 = (jogo*)malloc(sizeof(jogo));
     if(jogo1 == NULL) 
         return NULL;
 
-    if (file != NULL) 
+    while (fscanf(file,"%s %s %s %d %d %d %d", jogo1->epoca, jogo1->nome_casa, jogo1->nome_fora, &jogo1->golos_casa, &jogo1->golos_fora, &jogo1->vermelhos_casa, &jogo1->vermelhos_fora) != EOF)
     {   
-        while (fgets(buffer, 255, (FILE*) file))
-        {
-            strcpy((char*)jogo1, buffer);
-            vetor_insere(vtr, *jogo1, -1);
-	    }
+        vetor_insere(vtr, *jogo1, -1);
+	}
 
-        free(jogo1);     
-        fclose(file);
+     
+
+     //   free(jogo1);
+        //fclose(file);
         return vtr;
-    } 
-    else return NULL;
+    
+   //return NULL;
 }
 
 
 int jogos_save(vetor *vec, const char *nomef){
 
-    int len;
-    char convert;
-    FILE *file;
+    /*FILE *file;
     file = fopen(nomef,"w");
-
-    char * buffer = (char*) malloc (255 * sizeof(buffer));
-    if (buffer == NULL) {
-        perror("Erro:");
-        return -1;
-    }
-
-    /* nao usado, necessario alocar */
     if (vec == NULL) 
     {
         vetor * vec = vetor_novo();
@@ -68,64 +58,19 @@ int jogos_save(vetor *vec, const char *nomef){
     }
 
     fclose(file);
-    free(buffer);
     return vec->tamanho;
+    */
+   return -1;
 }
 
 
 vetor_equipas *stats_equipa(vetor *vec){
-
-    vetor_equipas * vtr_equipas = vetor_equipas_novo();
-    if (vtr_equipas == NULL)
-        return NULL;
+    return NULL;
     
-    jogo * jg = (jogo*)malloc(sizeof(jogo));
-    if (jg == NULL)
-        return NULL;
-
-    if (vec == NULL)
-        return NULL;
-
-    //jogo * jg;
-    equipa * equip;
-    char* buffer = (char*)malloc(sizeof(buffer)*100);
-    if (buffer == NULL) {
-        perror("Erro:");
-        return NULL;
-    }
-
-    char* aloc = (char*)malloc(sizeof(aloc)*100);
-    if (aloc == NULL) {
-        perror("Erro:");
-        return NULL;
-    }
-
-    char *flux[] = {};
-    int diff_golos;
-    int marcados_casa = 0;
-    int sofridos_casa = 0;
-    int marcados_fora = 0;
-    int sofridos_fora = 0;
-    uint8_t vermelho_casa_1 = 0;
-    uint8_t vermelho_casa_2 = 0;
-    uint8_t vermelho_casa_3 = 0;
-    uint8_t vermelho_fora_1 = 0;
-    uint8_t vermelho_fora_2 = 0;
-    uint8_t vermelho_fora_3 = 0;
-    char nome_equipa[30];
-    float vermelhos[3];
-
-    char *esp1;
-    char *esp2;
-    char *esp3;
-    char *esp4;
-    char *esp5;
-    char *esp6;
-
-
+/*
     for(int i = 0; i < vec->tamanho; i++)
     {
-        memset(jg->epoca, 0, sizeof(jg->epoca));
+       /* memset(jg->epoca, 0, sizeof(jg->epoca));
         memset(jg->nome_casa, 0, sizeof(jg->nome_casa));
         memset(jg->nome_fora, 0, sizeof(jg->nome_fora));
         jg->golos_casa = 0;
@@ -201,7 +146,7 @@ vetor_equipas *stats_equipa(vetor *vec){
             
         }
     }
-
+    
     printf("Marcados: %d\n", (marcados_casa+marcados_fora));
     printf("Sofridos: %d\n", (sofridos_casa+sofridos_fora));
     printf("Diff: %d\n", diff_golos);
@@ -209,11 +154,15 @@ vetor_equipas *stats_equipa(vetor *vec){
     printf("Vermlhso 16/17: %f\n", vermelhos[1]);
     printf("Vermlhso 17/18: %f\n", vermelhos[2]);
 
+    printf("Inicio\n");
     free(buffer);
+    printf("Depois de buffer\n");
     free(aloc);
+        printf("Depois de aloc\n");
+
     
     // ultimo passo: vetor_equipas_insere()...
-    return vtr_equipas;
+    return vtr_equipas;*/
 }
 
 
