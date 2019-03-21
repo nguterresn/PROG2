@@ -224,7 +224,7 @@ int equipas_ordena(vetor_equipas *v, int criterio){
 
     if (criterio == 0) 
     {
-        printf ("Entrou em 0");
+        printf ("Entrou em 0"); // zero
         for (int i = 0; i < v->tamanho; i++) 
         {
             equipa1 = vetor_equipas_elemento(v, i);
