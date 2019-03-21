@@ -63,16 +63,16 @@ int jogos_save(vetor *vec, const char *nomef){
 
 vetor_equipas *stats_equipa(vetor *vec)
 {
-    uint8_t marcados_casa;
-    uint8_t marcados_fora;
-    uint8_t sofridos_casa;
-    uint8_t sofridos_fora;
-    uint8_t vermelho_casa_1;
-    uint8_t vermelho_casa_2;
-    uint8_t vermelho_casa_3;
-    uint8_t vermelho_fora_1;
-    uint8_t vermelho_fora_2;
-    uint8_t vermelho_fora_3;
+    int marcados_casa;
+    int marcados_fora;
+    int sofridos_casa;
+    int sofridos_fora;
+    int vermelho_casa_1;
+    int vermelho_casa_2;
+    int vermelho_casa_3;
+    int vermelho_fora_1;
+    int vermelho_fora_2;
+    int vermelho_fora_3;
     int diff_golos;
 
     float vermelhos[3];
