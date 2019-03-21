@@ -62,16 +62,16 @@ int jogos_save(vetor *vec, const char *nomef){
 
 void get_equipas (vetor *vec, vetor_equipas *vec_equipas, const char* nome_equipa) 
 {
-    uint8_t marcados_casa = 0;
-    uint8_t marcados_fora = 0;
-    uint8_t sofridos_casa = 0;
-    uint8_t sofridos_fora = 0;
-    uint8_t vermelho_casa_1 = 0;
-    uint8_t vermelho_casa_2 = 0;
-    uint8_t vermelho_casa_3 = 0;
-    uint8_t vermelho_fora_1 = 0;
-    uint8_t vermelho_fora_2 = 0;
-    uint8_t vermelho_fora_3 = 0;
+    short marcados_casa = 0;
+    short marcados_fora = 0;
+    short sofridos_casa = 0;
+    short sofridos_fora = 0;
+    short vermelho_casa_1 = 0;
+    short vermelho_casa_2 = 0;
+    short vermelho_casa_3 = 0;
+    short vermelho_fora_1 = 0;
+    short vermelho_fora_2 = 0;
+    short vermelho_fora_3 = 0;
     int diff_golos = 0;
     float vermelhos[3];
 
