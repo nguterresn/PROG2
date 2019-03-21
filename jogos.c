@@ -33,7 +33,6 @@ vetor* jogos_load(const char *nomef){
     return vtr;
 }
 
-
 int jogos_save(vetor *vec, const char *nomef){
 
     FILE *file;
@@ -237,8 +236,40 @@ int corrige_jogo(vetor *vec, const char *nomef){
 
 
 int pontos_de_equipa(vetor *vec, char *nome_equipa, char *epoca){
-    //fsdf
-    return -1;
+    
+    int pontos = 0;
+
+    for(int i = 0; i < vec->tamanho; i++)
+    {
+        jogo * jg = vetor_elemento(vec, i);
+        if ((!(strcmp(jg->epoca, epoca)))) 
+        {
+            if ((!(strcmp(jg->nome_casa, nome_equipa))) || (!(strcmp(jg->nome_fora, nome_equipa)))) 
+            {
+                // Joga em casa!
+                if (!(strcmp(nome_equipa, jg->nome_casa))) 
+                {
+                    if ((jg->golos_casa) > (jg->golos_fora)) {
+                        pontos += 3;
+                    }
+                    if ((jg->golos_casa) == (jg->golos_fora))
+                        pontos += 1;
+                }
+                // Joga fora!
+                if (!(strcmp(nome_equipa, jg->nome_fora))) 
+                {
+                    if ((jg->golos_casa) < (jg->golos_fora)) {
+                        pontos += 3;
+                    }
+                    if ((jg->golos_casa) == (jg->golos_fora))
+                        pontos += 1;
+                }
+            }
+        }
+    }
+
+    return pontos;
+    
 }
 
 
