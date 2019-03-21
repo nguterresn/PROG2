@@ -53,167 +53,134 @@ int jogos_save(vetor *vec, const char *nomef){
         fprintf((FILE*) file, "%d ", jog->golos_casa);
         fprintf((FILE*) file, "%d ", jog->golos_fora);
         fprintf((FILE*) file, "%d ", jog->vermelhos_casa);
-        fprintf((FILE*) file, "%d ", jog->vermelhos_fora);
+        fprintf((FILE*) file, "%d\n", jog->vermelhos_fora);
     }
 
     fclose(file);
     return vec->tamanho;
 }
 
-
-vetor_equipas *stats_equipa(vetor *vec)
+void get_equipas (vetor *vec, const char* nome_equipa) 
 {
-    uint8_t marcados_casa;
-    uint8_t marcados_fora;
-    uint8_t sofridos_casa;
-    uint8_t sofridos_fora;
-    uint8_t vermelho_casa_1;
-    uint8_t vermelho_casa_2;
-    uint8_t vermelho_casa_3;
-    uint8_t vermelho_fora_1;
-    uint8_t vermelho_fora_2;
-    uint8_t vermelho_fora_3;
-    int diff_golos;
-
+    uint8_t marcados_casa = 0;
+    uint8_t marcados_fora = 0;
+    uint8_t sofridos_casa = 0;
+    uint8_t sofridos_fora = 0;
+    uint8_t vermelho_casa_1 = 0;
+    uint8_t vermelho_casa_2 = 0;
+    uint8_t vermelho_casa_3 = 0;
+    uint8_t vermelho_fora_1 = 0;
+    uint8_t vermelho_fora_2 = 0;
+    uint8_t vermelho_fora_3 = 0;
+    int diff_golos = 0;
     float vermelhos[3];
 
-    vetor_equipas * vtr_equipas = vetor_equipas_novo();
     equipa equipa;
 
     for (int i = 0; i < vec->tamanho; i++) 
     {
         jogo * jg = vetor_elemento(vec, i);
-
-        if ((strstr(jg->nome_casa,"Tottenham") != NULL) || (strstr(jg->nome_fora,"Tottenham") != NULL)) 
+        
+        if ((!(strncmp(jg->nome_casa, nome_equipa, strlen(nome_equipa)))) || (!(strncmp(jg->nome_fora, nome_equipa, strlen(nome_equipa)))))
         {
-            if (strstr(jg->nome_casa,"Tottenham") != NULL) {
+            if (!(strncmp(jg->nome_casa, nome_equipa, strlen(nome_equipa)))) {
                 if (jg->golos_casa != 0)
                     marcados_casa += jg->golos_casa;
                 if (jg->golos_fora != 0)
                     sofridos_casa += jg->golos_fora;
 
-                if (strstr(jg->epoca,"15/16") != NULL) {
+                if (!(strcmp(jg->epoca, "15/16"))) {
                     //19jogos
                     if (jg->vermelhos_casa != 0)
                         vermelho_casa_1 += jg->vermelhos_casa;
                 }
-                if (strstr(jg->epoca,"16/17") != NULL) {
+                if (!(strcmp(jg->epoca, "16/17"))) {
                     if (jg->vermelhos_casa != 0)
                         vermelho_casa_2 += jg->vermelhos_casa;
                 }
-                if (strstr(jg->epoca,"17/18") != NULL) {
+                if (!(strcmp(jg->epoca, "17/18"))) {
                     if (jg->vermelhos_casa != 0)
                         vermelho_casa_3 += jg->vermelhos_casa;
                 }
             }
 
-            if (strstr(jg->nome_fora,"Tottenham") != NULL) {
+            if (!(strncmp(jg->nome_fora, nome_equipa, strlen(nome_equipa)))) {
                 if (jg->golos_fora != 0 )
                     marcados_fora += jg->golos_fora;
                 if (jg->golos_casa != 0 )
                     sofridos_fora += jg->golos_casa;
 
-                if (strstr(jg->epoca,"15/16") != NULL) {
+               if (!(strcmp(jg->epoca, "15/16"))) {
                     if (jg->vermelhos_fora != 0)
                         vermelho_fora_1 += jg->vermelhos_fora;
                 }
-                if (strstr(jg->epoca,"16/17") != NULL) {
+                if (!(strcmp(jg->epoca, "16/17"))) {
                     if (jg->vermelhos_fora != 0)
                         vermelho_fora_2 += jg->vermelhos_fora;
                 }
-                if (strstr(jg->epoca,"17/18") != NULL) {
+                if (!(strcmp(jg->epoca, "17/18"))) {
                     if (jg->vermelhos_fora != 0)
                         vermelho_fora_3 += jg->vermelhos_fora;
                 }
             }
-
-            diff_golos = (marcados_casa + marcados_fora) - (sofridos_casa + sofridos_fora);
-            vermelhos[0] = (double)(vermelho_casa_1 + vermelho_fora_1)/38;
-            vermelhos[1] = (double)(vermelho_casa_2 + vermelho_fora_2)/38;
-            vermelhos[2] = (double)(vermelho_casa_3 + vermelho_fora_3)/38;
-
-            strcpy(equipa.nome_equipa,jg->nome_casa);
-            equipa.diff_golos = diff_golos;
-            equipa.vermelhos[0] = vermelhos [0];
-            equipa.vermelhos[1] = vermelhos [1];
-            equipa.vermelhos[2] = vermelhos [2];
-
-            printf("Diff Tot: %d\n", diff_golos);
-                    
-        }
-
-        if ((strstr(jg->nome_casa,"Arsenal") != NULL) || (strstr(jg->nome_fora,"Arsenal") != NULL)) 
-        {
-            if (strstr(jg->nome_casa,"Arsenal") != NULL) {
-                if (jg->golos_casa != 0)
-                    marcados_casa += jg->golos_casa;
-                if (jg->golos_fora != 0)
-                    sofridos_casa += jg->golos_fora;
-
-                if (strstr(jg->epoca,"15/16") != NULL) {
-                    //19jogos
-                    if (jg->vermelhos_casa != 0)
-                        vermelho_casa_1 += jg->vermelhos_casa;
-                }
-                if (strstr(jg->epoca,"16/17") != NULL) {
-                    if (jg->vermelhos_casa != 0)
-                        vermelho_casa_2 += jg->vermelhos_casa;
-                }
-                if (strstr(jg->epoca,"17/18") != NULL) {
-                    if (jg->vermelhos_casa != 0)
-                        vermelho_casa_3 += jg->vermelhos_casa;
-                }
-            }
-
-            if (strstr(jg->nome_fora,"Arsenal") != NULL) {
-                if (jg->golos_fora != 0 )
-                    marcados_fora += jg->golos_fora;
-                if (jg->golos_casa != 0 )
-                    sofridos_fora += jg->golos_casa;
-
-                if (strstr(jg->epoca,"15/16") != NULL) {
-                    if (jg->vermelhos_fora != 0)
-                        vermelho_fora_1 += jg->vermelhos_fora;
-                }
-                if (strstr(jg->epoca,"16/17") != NULL) {
-                    if (jg->vermelhos_fora != 0)
-                        vermelho_fora_2 += jg->vermelhos_fora;
-                }
-                if (strstr(jg->epoca,"17/18") != NULL) {
-                    if (jg->vermelhos_fora != 0)
-                        vermelho_fora_3 += jg->vermelhos_fora;
-                }
-            }
-
-            diff_golos = (marcados_casa + marcados_fora) - (sofridos_casa + sofridos_fora);
-            vermelhos[0] = (double)(vermelho_casa_1 + vermelho_fora_1)/38;
-            vermelhos[1] = (double)(vermelho_casa_2 + vermelho_fora_2)/38;
-            vermelhos[2] = (double)(vermelho_casa_3 + vermelho_fora_3)/38;
-
-            strcpy(equipa.nome_equipa,jg->nome_casa);
-            equipa.diff_golos = diff_golos;
-            equipa.vermelhos[0] = vermelhos [0];
-            equipa.vermelhos[1] = vermelhos [1];
-            equipa.vermelhos[2] = vermelhos [2];
-
-            printf("Diff Arsenal: %d\n", diff_golos);
-                    
         }
     }
-    
-    /*
-    if (strstr(equipa.nome_equipa,"Tottenham") != NULL) {
-        printf("Equipa: %s\n", equipa.nome_equipa);
-        printf("Diff: %d\n", equipa.diff_golos);
-        printf("Vermelhos: %f\n", equipa.vermelhos[0]);
-    }*/
+
+    diff_golos = (marcados_casa + marcados_fora) - (sofridos_casa + sofridos_fora);
+    vermelhos[0] = (double)(vermelho_casa_1 + vermelho_fora_1)/38;
+    vermelhos[1] = (double)(vermelho_casa_2 + vermelho_fora_2)/38;
+    vermelhos[2] = (double)(vermelho_casa_3 + vermelho_fora_3)/38;
+
+    strcpy(equipa.nome_equipa,nome_equipa);
+    equipa.diff_golos = diff_golos;
+    equipa.vermelhos[0] = vermelhos [0];
+    equipa.vermelhos[1] = vermelhos [1];
+    equipa.vermelhos[2] = vermelhos [2];
+
+    printf("\nDiff %s: %d\n", equipa.nome_equipa, equipa.diff_golos);  
+    printf("Vermelhos: %f\n", equipa.vermelhos[0]);
+    printf("Vermelhos: %f\n", equipa.vermelhos[1]);
+    printf("Vermelhos: %f\n", equipa.vermelhos[2]);
+
+}
+
+vetor_equipas *stats_equipa(vetor *vec)
+{
+
+    vetor_equipas * vtr_equipas = vetor_equipas_novo();
+    equipa equipa;
+
+    get_equipas(vec, "Arsenal");
+    get_equipas(vec, "Stoke");
+    get_equipas(vec, "Bournemouth");
+    get_equipas(vec, "Aston_Villa");
+    get_equipas(vec, "Chelsea");
+    get_equipas(vec, "Swansea");
+    get_equipas(vec, "Everton");
+    get_equipas(vec, "Watford");
+    get_equipas(vec, "Leicester");
+    get_equipas(vec, "Sunderland");
+    get_equipas(vec, "Man_United");
+    get_equipas(vec, "Tottenham");
+    get_equipas(vec, "Norwich");
+    get_equipas(vec, "Crystal_Palace");
+    get_equipas(vec, "West_Ham");
+    get_equipas(vec, "Newcastle");
+    get_equipas(vec, "Southampton");
+    get_equipas(vec, "Liverpool");
+    get_equipas(vec, "West_Brom");
+    get_equipas(vec, "Man_City");
+    get_equipas(vec, "Middlesbrough");
+    get_equipas(vec, "Hull");
+    get_equipas(vec, "Burnley");
+    get_equipas(vec, "Brighton");
+    get_equipas(vec, "Huddersfield");
+
     
     // ultimo passo: vetor_equipas_insere()...
     return vtr_equipas;
 
 }
-
-
 
 
 int equipas_ordena(vetor_equipas *v, int criterio){
