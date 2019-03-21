@@ -137,10 +137,10 @@ void get_equipas (vetor *vec, vetor_equipas *vec_equipas, const char* nome_equip
     equipa.vermelhos[1] = vermelhos [1];
     equipa.vermelhos[2] = vermelhos [2];
 
-    printf("\nDiff %s: %d\n", equipa.nome_equipa, equipa.diff_golos);  
+    /*printf("\nDiff %s: %d\n", equipa.nome_equipa, equipa.diff_golos);  
     printf("Vermelhos: %f\n", equipa.vermelhos[0]);
     printf("Vermelhos: %f\n", equipa.vermelhos[1]);
-    printf("Vermelhos: %f\n", equipa.vermelhos[2]);
+    printf("Vermelhos: %f\n", equipa.vermelhos[2]);*/
 
     vetor_equipas_insere(vec_equipas, equipa, -1);
 }
@@ -191,8 +191,48 @@ int equipas_ordena(vetor_equipas *v, int criterio){
 
 
 int corrige_jogo(vetor *vec, const char *nomef){
-//fsdf
-    return -1;
+
+    FILE *filer;
+    filer = fopen(nomef,"r");
+    if (!filer) 
+    {
+        perror("Error: ");
+        return -1;
+    }
+
+    jogo jogo1;
+
+    while (fscanf(filer,"%s %s %s %d %d %d %d", jogo1.epoca, jogo1.nome_casa, jogo1.nome_fora, &jogo1.golos_casa, &jogo1.golos_fora, &jogo1.vermelhos_casa, &jogo1.vermelhos_fora) != EOF)
+    {
+        for (int i = 0; i < vec->tamanho; i++) 
+        {
+            jogo * jogo2 = vetor_elemento(vec, i);
+
+            if ((!(strcmp(jogo1.epoca,jogo2->epoca))) 
+            && (!(strcmp(jogo1.nome_casa,jogo2->nome_casa)))  
+            && (!(strcmp(jogo1.nome_fora,jogo2->nome_fora)))) 
+            {
+                vetor_atribui(vec, i, jogo1);
+            }
+
+        }
+    }
+
+    /*for(int i = 0; i < vec->tamanho; i++)
+    {
+        jogo * jogo = vetor_elemento(vec, i);
+
+        printf ("\nPosicao: %d ->",i);
+        printf ("%s ", jogo->epoca);
+        printf ("%s ", jogo->nome_casa);
+        printf ("%s ", jogo->nome_fora);
+        printf ("%d ", jogo->golos_casa);
+        printf ("%d ", jogo->golos_fora);
+        printf ("%d ", jogo->vermelhos_casa);
+        printf ("%d ", jogo->vermelhos_fora);
+    }*/
+    
+    return 0;
 }
 
 
