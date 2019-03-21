@@ -133,22 +133,16 @@ int teste_equipas_ordena()
 
 	vetor *v = jogos_load(FICH1);
 	vetor_equipas * stats = stats_equipa(v);
-	
-	printf("\n\nSTRCMP %d\n\n", strcmp(NULL, "Arsenal") );
+
 	inicio = clock();
 	equipas_ordena(stats, 0);
 	fim = clock();
 	t_alfa = (double)(fim - inicio) / CLOCKS_PER_SEC;
-	/*
 	if (strcmp(vetor_equipas_elemento(stats, 0)->nome_equipa, "Arsenal") != 0){
-		printf("HERE\n");
-		//ERRO("elemento inicial errado depois de ordenar por ordem alfabética.")
-		}
+		ERRO("elemento inicial errado depois de ordenar por ordem alfabética.")}
 	else{
 		printf("\n\tElemento inicial quando ordenado por ordem alfabética: %s\n\t", vetor_equipas_elemento(stats, 0)->nome_equipa);
 	}
-	*/
-	
 	vetor_apaga(v);
 	vetor_equipas_apaga(stats);
 	v = jogos_load(FICH1);
@@ -167,7 +161,7 @@ int teste_equipas_ordena()
 	vetor_equipas_apaga(stats);
 	printf("\n\tTempo de execucao ordenacao por ordem alfabética (s): %f.", t_alfa);
 	printf("\n\tTempo de execucao ordenacao por diferença de golos (s): %f.\n\t", t_diff);
-	
+
 	FINALIZA_TESTE()
 }
 
@@ -220,7 +214,7 @@ int main()
 	{
 		erros += teste_jogos_save();
 		erros += teste_stats_equipa();
-		//erros += teste_equipas_ordena();
+		erros += teste_equipas_ordena();
 		erros += teste_corrige_jogo();
 		erros += teste_pontos_de_equipa();
 	}
