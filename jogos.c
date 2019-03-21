@@ -137,6 +137,8 @@ vetor_equipas *stats_equipa(vetor *vec)
             equipa.vermelhos[0] = vermelhos [0];
             equipa.vermelhos[1] = vermelhos [1];
             equipa.vermelhos[2] = vermelhos [2];
+
+            printf("Diff Tot: %d\n", diff_golos);
                     
         }
 
@@ -194,7 +196,7 @@ vetor_equipas *stats_equipa(vetor *vec)
             equipa.vermelhos[1] = vermelhos [1];
             equipa.vermelhos[2] = vermelhos [2];
 
-            printf("Diff: %d\n", diff_golos);
+            printf("Diff Arsenal: %d\n", diff_golos);
                     
         }
     }
