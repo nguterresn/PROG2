@@ -60,7 +60,7 @@ int jogos_save(vetor *vec, const char *nomef){
     return vec->tamanho;
 }
 
-void get_equipas (vetor *vec, const char* nome_equipa) 
+void get_equipas (vetor *vec, vetor_equipas *vec_equipas, const char* nome_equipa) 
 {
     uint8_t marcados_casa = 0;
     uint8_t marcados_fora = 0;
@@ -142,6 +142,7 @@ void get_equipas (vetor *vec, const char* nome_equipa)
     printf("Vermelhos: %f\n", equipa.vermelhos[1]);
     printf("Vermelhos: %f\n", equipa.vermelhos[2]);
 
+    vetor_equipas_insere(vec_equipas, equipa, -1);
 }
 
 vetor_equipas *stats_equipa(vetor *vec)
@@ -150,31 +151,31 @@ vetor_equipas *stats_equipa(vetor *vec)
     vetor_equipas * vtr_equipas = vetor_equipas_novo();
     equipa equipa;
 
-    get_equipas(vec, "Arsenal");
-    get_equipas(vec, "Stoke");
-    get_equipas(vec, "Bournemouth");
-    get_equipas(vec, "Aston_Villa");
-    get_equipas(vec, "Chelsea");
-    get_equipas(vec, "Swansea");
-    get_equipas(vec, "Everton");
-    get_equipas(vec, "Watford");
-    get_equipas(vec, "Leicester");
-    get_equipas(vec, "Sunderland");
-    get_equipas(vec, "Man_United");
-    get_equipas(vec, "Tottenham");
-    get_equipas(vec, "Norwich");
-    get_equipas(vec, "Crystal_Palace");
-    get_equipas(vec, "West_Ham");
-    get_equipas(vec, "Newcastle");
-    get_equipas(vec, "Southampton");
-    get_equipas(vec, "Liverpool");
-    get_equipas(vec, "West_Brom");
-    get_equipas(vec, "Man_City");
-    get_equipas(vec, "Middlesbrough");
-    get_equipas(vec, "Hull");
-    get_equipas(vec, "Burnley");
-    get_equipas(vec, "Brighton");
-    get_equipas(vec, "Huddersfield");
+    get_equipas(vec, vtr_equipas,"Arsenal");
+    get_equipas(vec, vtr_equipas,"Stoke");
+    get_equipas(vec,vtr_equipas,"Bournemouth");
+    get_equipas(vec, vtr_equipas,"Aston_Villa");
+    get_equipas(vec, vtr_equipas,"Chelsea");
+    get_equipas(vec, vtr_equipas,"Swansea");
+    get_equipas(vec, vtr_equipas,"Everton");
+    get_equipas(vec, vtr_equipas,"Watford");
+    get_equipas(vec, vtr_equipas,"Leicester");
+    get_equipas(vec, vtr_equipas,"Sunderland");
+    get_equipas(vec, vtr_equipas,"Man_United");
+    get_equipas(vec, vtr_equipas,"Tottenham");
+    get_equipas(vec, vtr_equipas,"Norwich");
+    get_equipas(vec, vtr_equipas,"Crystal_Palace");
+    get_equipas(vec, vtr_equipas,"West_Ham");
+    get_equipas(vec, vtr_equipas,"Newcastle");
+    get_equipas(vec, vtr_equipas,"Southampton");
+    get_equipas(vec, vtr_equipas,"Liverpool");
+    get_equipas(vec, vtr_equipas,"West_Brom");
+    get_equipas(vec, vtr_equipas,"Man_City");
+    get_equipas(vec, vtr_equipas,"Middlesbrough");
+    get_equipas(vec, vtr_equipas,"Hull");
+    get_equipas(vec, vtr_equipas,"Burnley");
+    get_equipas(vec, vtr_equipas,"Brighton");
+    get_equipas(vec, vtr_equipas,"Huddersfield");
 
     
     // ultimo passo: vetor_equipas_insere()...
