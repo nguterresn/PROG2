@@ -138,7 +138,7 @@ int teste_equipas_ordena()
 	equipas_ordena(stats, 0);
 	fim = clock();
 	t_alfa = (double)(fim - inicio) / CLOCKS_PER_SEC;
-	printf("eee: %s\n",vetor_equipas_elemento(stats, 0)->nome_equipa);
+	printf("vetor equipas elemento: %s\n",vetor_equipas_elemento(stats, 0)->nome_equipa);
 	if (strcmp(vetor_equipas_elemento(stats, 0)->nome_equipa, "Arsenal") != 0){
 		ERRO("elemento inicial errado depois de ordenar por ordem alfabética.")}
 	else{

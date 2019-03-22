@@ -1,17 +1,20 @@
-/*****************************************************************/
-/*         Trabalho pratico 1 | PROG2 | MIEEC | 2018/19          */
-/*****************************************************************/
-/*                    FUNCOES A IMPLEMENTAR                      */
-/*****************************************************************/
+                                /*****************************************************************/
+                                /*         Trabalho pratico 1 | PROG2 | MIEEC | 2018/19          */
+                                /*****************************************************************/
+                                /*                    FUNCOES A IMPLEMENTAR                      */
+                                /*****************************************************************/
 
 #include "jogos.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
+//****************PROTOTIPO DAS FUNCOES QUE IMPLEMENTAMOS ALÉM DAS PEDIDAS*************************************************//
 void quickSortMain(char items[][20], int count);
 void quickSort(char items[][20], int left, int right);
+void quicksort_golos(vetor_equipas *v, equipa *equipa1);
 
+//*******************************FUNÇÕES A IMPLEMENTAR****************************************//
 vetor* jogos_load(const char *nomef){
 
     FILE *file;
@@ -176,7 +179,7 @@ vetor_equipas *stats_equipa(vetor *vec)
 
 }
 
-//funcao quicksort para ordenar strings
+//************************************QUICKSORT FOR STRINGS*************************************************//
 void quickSortMain(char items[][20], int count)
 {
   quickSort(items, 0, count-1);
@@ -215,14 +218,39 @@ void quickSort(char items[][20], int left, int right)
      quickSort(items, i, right);
   }
 }
+//***************************************QUICKSORT DIFF GOALS**********************************************//
+void quicksort_golos(vetor_equipas *v, equipa *equipa1){
 
+    int diferenca[25];
+    for (int i = 0; i < v->tamanho; i++) 
+        {
+            equipa1 = vetor_equipas_elemento(v, i);
+            diferenca[i]=equipa1->diff_golos;
+        }
+
+    for (int i = 0; i < v->tamanho; i++)                     //Loop for ascending ordering
+	{
+        equipa1 = vetor_equipas_elemento(v, i);
+		for (int j = 0; j < v->tamanho; j++)             //Loop for comparing other values
+		{
+            
+			if (diferenca[j] > diferenca[i])                //Comparing other array elements
+			{
+				int tmp = diferenca[i];         //Using temporary variable for storing last value
+				diferenca[i] = diferenca[j];  
+                vetor_equipas_atribui(v,i,*equipa1);         //replacing value
+				diferenca[j] = tmp;             //storing last value
+			}  
+		}
+	}
+        printf("\n%s",v->elementos);
+}
 int equipas_ordena(vetor_equipas *v, int criterio){
 
     equipa *equipa1;
-    equipa eq;
     char buffer[30][20];
 
-    if (criterio == 0) 
+  /*  if (criterio == 0) 
     {
         printf ("Entrou em 0"); // zero
         for (int i = 0; i < v->tamanho; i++) 
@@ -235,18 +263,20 @@ int equipas_ordena(vetor_equipas *v, int criterio){
 
         for(int i = 0; i < v->tamanho+1; i++) 
         {
-            strcpy(eq.nome_equipa,buffer[i]);
-            printf("\n%s\n",eq.nome_equipa);
-            if(vetor_equipas_atribui(v,i,eq)!=-1){
-                printf("SUCESS!\n");
-            }
+            //equipa1 = vetor_equipas_elemento(v, i);
+            strcpy(equipa1->nome_equipa,buffer[i]);
+            printf("\n%s\n",equipa1->nome_equipa);
+            //vetor_equipas_atribui(v,i,*equipa1);
         }
         
-    }
-    if (criterio == 1) 
-    {
-      //sdd
-    }
+        //printf("%s",v->elementos);  
+        
+    }*/
+   // if (criterio == 1) 
+   // {
+      printf ("Entrou em   1"); // um
+      quicksort_golos(v,equipa1);
+    //}
     return 0;
 }
 
