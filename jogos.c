@@ -223,37 +223,48 @@ void quickSort(char items[][20], int left, int right)
 void quicksort_golos(vetor_equipas *v, equipa *equipa1){
 
     int diferenca[25];
+    const char nome_equipa[25][30];
+    const char temp [25][30];
+
     for (int i = 0; i < v->tamanho; i++) 
-        {
+    {
             equipa1 = vetor_equipas_elemento(v, i);
-            diferenca[i]=equipa1->diff_golos;
-        }
+            diferenca[i] = equipa1->diff_golos;
+            strcpy(nome_equipa[i], equipa1->nome_equipa);
+    }
 
     for (int i = 0; i < v->tamanho; i++)                     //Loop for ascending ordering
 	{
-        equipa1 = vetor_equipas_elemento(v, i);
 		for (int j = 0; j < v->tamanho; j++)             //Loop for comparing other values
 		{
-            
 			if (diferenca[j] > diferenca[i])                //Comparing other array elements
 			{
 				int tmp = diferenca[i];         //Using temporary variable for storing last value
-				diferenca[i] = diferenca[j];  
-                vetor_equipas_atribui(v,i,*equipa1);         //replacing value
+                strcpy(temp[i], nome_equipa[i]);
+				diferenca[i] = diferenca[j];          //replacing value
+                strcpy(nome_equipa[i], nome_equipa[j]);
 				diferenca[j] = tmp;             //storing last value
-			}  
+                strcpy(nome_equipa[j], temp[i]);
+			} 
 		}
 	}
-        printf("\n%s",v->elementos);
+
+    for(int i = 0; i < v->tamanho; i++)
+    {
+       equipa1->diff_golos = diferenca[i];
+       strcpy(equipa1->nome_equipa, nome_equipa[i]);
+       vetor_equipas_atribui(v, i, *equipa1); 
+    }
+    
 }
+
 int equipas_ordena(vetor_equipas *v, int criterio){
 
     equipa * equipa1;
     char buffer[30][20];
 
-    if (criterio == 0) 
+   /* if (criterio == 0) 
     {
-        printf ("Entrou em 0"); // zero
         for (int i = 0; i < v->tamanho; i++) 
         {
             equipa1 = vetor_equipas_elemento(v, i);
@@ -272,14 +283,20 @@ int equipas_ordena(vetor_equipas *v, int criterio){
         
         //printf("%s",v->elementos);  
         
-    }
+    }*/
 
     if (criterio == 1) 
     {
-        printf ("Entrou em   1"); // um
-        quicksort_golos(v,equipa1);
-    }
+        quicksort_golos(v, equipa1);
 
+        // Confirma-se que entra no vetor //
+        for(int i = 0; i < v->tamanho; i++)
+        {
+            equipa1 = vetor_equipas_elemento(v, i);
+            printf("Pos %d, equipa: %s -> diff_golos: %d \n", i,equipa1->nome_equipa, equipa1->diff_golos);
+        }
+        
+    }
     return 0;
 }
 
