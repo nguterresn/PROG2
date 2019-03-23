@@ -218,6 +218,7 @@ void quickSort(char items[][20], int left, int right)
      quickSort(items, i, right);
   }
 }
+
 //***************************************QUICKSORT DIFF GOALS**********************************************//
 void quicksort_golos(vetor_equipas *v, equipa *equipa1){
 
@@ -247,10 +248,10 @@ void quicksort_golos(vetor_equipas *v, equipa *equipa1){
 }
 int equipas_ordena(vetor_equipas *v, int criterio){
 
-    equipa *equipa1;
+    equipa * equipa1;
     char buffer[30][20];
 
-  /*  if (criterio == 0) 
+    if (criterio == 0) 
     {
         printf ("Entrou em 0"); // zero
         for (int i = 0; i < v->tamanho; i++) 
@@ -259,11 +260,11 @@ int equipas_ordena(vetor_equipas *v, int criterio){
             strcpy(buffer[i],equipa1->nome_equipa);
         }
 
-        quickSortMain(buffer,v->tamanho+1);
+        quickSortMain(buffer,100);
 
         for(int i = 0; i < v->tamanho+1; i++) 
         {
-            //equipa1 = vetor_equipas_elemento(v, i);
+            equipa1 = vetor_equipas_elemento(v, i);
             strcpy(equipa1->nome_equipa,buffer[i]);
             printf("\n%s\n",equipa1->nome_equipa);
             //vetor_equipas_atribui(v,i,*equipa1);
@@ -271,12 +272,14 @@ int equipas_ordena(vetor_equipas *v, int criterio){
         
         //printf("%s",v->elementos);  
         
-    }*/
-   // if (criterio == 1) 
-   // {
-      printf ("Entrou em   1"); // um
-      quicksort_golos(v,equipa1);
-    //}
+    }
+
+    if (criterio == 1) 
+    {
+        printf ("Entrou em   1"); // um
+        quicksort_golos(v,equipa1);
+    }
+
     return 0;
 }
 
@@ -308,7 +311,7 @@ int corrige_jogo(vetor *vec, const char *nomef){
 
         }
     }
-
+    fclose(filer);
     return 0;
 }
 
